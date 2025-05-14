@@ -1,10 +1,9 @@
-//
-//  UserInteractor.swift
-//  TesteUiKIT
-//
-//  Created by Thiago Santos on 14/05/25.
-//
+import Foundation
 
+protocol UserInteractorProtocol: AnyObject {
+    func loadView()
+    func loadView() async
+}
 
 class UserInteractor: UserInteractorProtocol {
     let webService: WebServiceProtocol
@@ -15,7 +14,6 @@ class UserInteractor: UserInteractorProtocol {
         self.presenter = presenter
     }
     
-    
     func loadView() {
         webService.execute(urlSring: "https://api.github.com/users") { [weak self] (result: Result<[GitHubUser], Error>) in
             switch result {
@@ -24,6 +22,16 @@ class UserInteractor: UserInteractorProtocol {
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
+        }
+    }
+    
+    func loadView() async {
+        do {
+            let result: [GitHubUser] = try await webService.execute(urlSring: "https://api.github.com/users")
+            presenter.load(with: result)
+            print(result)
+        } catch {
+            print("Erro ao carregar dados: \(error.localizedDescription)")
         }
     }
 }

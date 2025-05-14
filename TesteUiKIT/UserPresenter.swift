@@ -1,3 +1,16 @@
+//
+//  UserPresenter.swift
+//  TesteUiKIT
+//
+//  Created by Thiago Santos on 14/05/25.
+//
+import Foundation
+
+protocol UserPresenting {
+    var items: [GitHubUser] { get }
+    func load(with users: [GitHubUser])
+}
+
 class UserPresenter: UserPresenting {
     
     private(set) var items: [GitHubUser] = []
@@ -10,5 +23,4 @@ class UserPresenter: UserPresenting {
             self.view?.realodData()
         }
     }
-    
 }

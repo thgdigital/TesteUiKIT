@@ -1,3 +1,5 @@
+import Foundation
+
 enum ErrorCase: LocalizedError {
     case invalidURL
     case networkError(Error)

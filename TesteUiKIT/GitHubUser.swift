@@ -1,10 +1,4 @@
-//
-//  GitHubUser.swift
-//  TesteUiKIT
-//
-//  Created by Thiago Santos on 14/05/25.
-//
-
+import Foundation
 
 public struct GitHubUser: Codable {
     let login: String
