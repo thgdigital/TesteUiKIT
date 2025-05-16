@@ -16,7 +16,7 @@ protocol WebServiceProtocol {
                                 headers: Dictionary<String, String>?,
                                 body: Dictionary<String, String>?,
                                 methdor: NetworkClientMethdor,
-                                completion: @escaping (Result<T, any Error>) ->Void)
+                                completion: @escaping (Result<T, Error>) ->Void)
     func execute<T: Decodable>(
         urlSring: String,
         headers: [String: String]?,
@@ -34,7 +34,7 @@ extension WebServiceProtocol {
         headers: [String: String]? = nil,
         body: [String: String]? = nil,
         methdor: NetworkClientMethdor = .GET,
-        completion: @escaping (Result<T, any Error>) -> Void
+        completion: @escaping (Result<T, Error>) -> Void
     ) {
         execute(urlSring: urlSring, headers: headers, body: body, methdor: methdor, completion: completion)
     }
@@ -61,7 +61,7 @@ class WebService: WebServiceProtocol {
         headers: [String: String]?,
         body: [String: String]?,
         methdor: NetworkClientMethdor,
-        completion: @escaping (Result<T, any Error>) -> Void
+        completion: @escaping (Result<T, Error>) -> Void
         
     ) where T: Decodable {
         do {
@@ -69,10 +69,16 @@ class WebService: WebServiceProtocol {
             let request = try makeRequest(urlSring: urlSring, headers: headers, body: body, method: methdor)
             
             netWorkClient.dataTask(with: request) { data, response, error in
-                if let error {
-                    completion(.failure(ErrorCase.networkError(error)))
+                if let error = error as? ErrorCase {
+                    completion(.failure(error))
                     return
                 }
+                
+                if let error {
+                    completion(.failure(error))
+                    return
+                }
+                
                 guard let data else {
                     completion(.failure(ErrorCase.invalidResponse))
                     return
@@ -85,7 +91,7 @@ class WebService: WebServiceProtocol {
                 }
             }.resume()
             
-        } catch {
+        } catch  {
             completion(.failure(error))
         }
     }

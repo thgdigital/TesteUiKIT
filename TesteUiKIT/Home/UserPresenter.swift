@@ -26,7 +26,7 @@ class UserPresenter: UserPresenting {
     }
     
     func didError(error: Error) {
-        
+        view?.didError(message: error.localizedDescription)
     }
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 @testable import TesteUiKIT
 
-class MockNetworkClient: NetworkClientProtocol {
+class MockNetworkClientSpy: NetworkClientProtocol {
     
     var scenario: MockScenario
     var jsonString: String
@@ -20,32 +20,30 @@ class MockNetworkClient: NetworkClientProtocol {
     
     func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> URLSessionDataTask {
         
-        return MockURLSessionDataTask {
-            
+        return MockURLSessionDataTask(onResume: {
             guard let urlRequest = request.url else {
                 completionHandler(nil, nil, ErrorCase.invalidURL)
                 return
             }
-            
+
             switch self.scenario {
-                
             case .success:
                 let data = Data(self.jsonString.utf8)
-                let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+                let response = HTTPURLResponse(url: urlRequest, statusCode: 200, httpVersion: nil, headerFields: nil)!
                 completionHandler(data, response, nil)
-                
+
             case .invalidResponse:
                 completionHandler(nil, nil, ErrorCase.invalidResponse)
-                
+
             case .badJSON:
                 let data = Data("{".utf8)
-                let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+                let response = HTTPURLResponse(url: urlRequest, statusCode: 200, httpVersion: nil, headerFields: nil)!
                 completionHandler(data, response, nil)
-                
+
             case .throwError:
                 completionHandler(nil, nil, NSError(domain: "MockError", code: 1, userInfo: nil))
             }
-        }
+        })
     }
     
     func data(for request: URLRequest) async throws -> (Data, URLResponse) {
@@ -61,7 +59,7 @@ class MockNetworkClient: NetworkClientProtocol {
         case .invalidResponse:
             let data = Data()
             let response = HTTPURLResponse(url: urlRequest, statusCode: 404, httpVersion: nil, headerFields: nil)!
-            return (data, response)
+            throw ErrorCase.invalidResponse
         case .badJSON:
             let data = Data(jsonString.utf8)
             let response = HTTPURLResponse(url: urlRequest, statusCode: 200, httpVersion: nil, headerFields: nil)!
@@ -80,13 +78,14 @@ class MockNetworkClient: NetworkClientProtocol {
 @available(iOS, deprecated: 13.0, message: "Mocked class for testing only")
 class MockURLSessionDataTask: URLSessionDataTask, @unchecked Sendable {
     private let onResume: () -> Void
-    
+
     init(onResume: @escaping () -> Void) {
         self.onResume = onResume
-        super.init()
+        super.init() // está tudo certo aqui, mesmo com deprecated
     }
-    
+
     override func resume() {
         onResume()
     }
 }
+

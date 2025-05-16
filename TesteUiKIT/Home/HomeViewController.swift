@@ -9,6 +9,7 @@ import UIKit
 
 protocol HomeViewControllerProtocol: AnyObject {
     func realodData()
+    func didError(message: String)
 }
 
 class HomeViewController: UIViewController {
@@ -33,8 +34,11 @@ class HomeViewController: UIViewController {
 
 
 extension HomeViewController: HomeViewControllerProtocol {
+    
     func realodData() {
-  
         print("Aqui recarrego os dados")
+    }
+    func didError(message: String) {
+        
     }
 }

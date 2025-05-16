@@ -15,5 +15,4 @@ enum ErrorCase: LocalizedError {
             return "Response inválido"
         }
     }
-    
 }

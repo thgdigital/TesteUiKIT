@@ -20,7 +20,7 @@ class UserInteractor: UserInteractorProtocol {
             case .success(let users):
                 self?.presenter.load(with: users)
             case .failure(let failure):
-                print(failure.localizedDescription)
+                self?.presenter.didError(error: failure)
             }
         }
     }
@@ -31,7 +31,7 @@ class UserInteractor: UserInteractorProtocol {
             presenter.load(with: result)
             print(result)
         } catch {
-            print("Erro ao carregar dados: \(error.localizedDescription)")
+            presenter.didError(error: error)
         }
     }
 }
