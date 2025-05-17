@@ -13,7 +13,7 @@ class MockNetworkClientSpy: NetworkClientProtocol {
     var scenario: MockScenario
     var jsonString: String
     
-    init(scenario: MockScenario, jsonString: String) {
+    init(scenario: MockScenario = .success, jsonString: String = "") {
         self.scenario = scenario
         self.jsonString = jsonString
     }
@@ -57,8 +57,6 @@ class MockNetworkClientSpy: NetworkClientProtocol {
             let response = HTTPURLResponse(url: urlRequest, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (data, response)
         case .invalidResponse:
-            let data = Data()
-            let response = HTTPURLResponse(url: urlRequest, statusCode: 404, httpVersion: nil, headerFields: nil)!
             throw ErrorCase.invalidResponse
         case .badJSON:
             let data = Data(jsonString.utf8)

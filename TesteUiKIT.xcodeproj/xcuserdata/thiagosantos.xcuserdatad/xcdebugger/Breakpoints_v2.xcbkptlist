@@ -23,32 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1F0DA765-6E00-4061-AB3C-65F5ECF8F848"
+            uuid = "DCFFD3F1-4764-46C9-AF51-865FAF0EFD4E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TesteUiKIT/Service/ErrorCase.swift"
+            filePath = "TesteUiKITTests/MockNetworkClient.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
-            landmarkName = "errorDescription"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "416B3277-9088-42F3-9C24-F0CD1DBAF247"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TesteUiKITTests/Module/Home/Spy/HomeViewControllerSpy.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "didError(message:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "data(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

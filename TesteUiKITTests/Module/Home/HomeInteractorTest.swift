@@ -20,7 +20,7 @@ final class HomeInteractorTest: XCTestCase {
     
     func test_shoudCallServiceLoadView() {
         // Given
-        mockService.jsonString = readJSONFile(mock: "githubUser")
+        mockService.jsonString = Helper.shared.readJSONFile(mock: "githubUser")
         
         //When
         sut.loadView()
@@ -44,20 +44,4 @@ final class HomeInteractorTest: XCTestCase {
         XCTAssertEqual(presenterSpy.didErrorCallCount, 1)
         XCTAssertEqual(presenterSpy.didErrorToBeReturned?.localizedDescription, error.localizedDescription)
     }
-    
-    // MARK: - Helper Methods
-    private func readJSONFile(mock: String) -> String {
-        
-        let bundle = Bundle(for: type(of: self))
-        
-        guard let pathString = bundle.path(forResource: mock, ofType: "json") else {
-            fatalError("UnitTestData.json not found")
-        }
-        
-        guard let jsonString = try? String(contentsOfFile: pathString, encoding: .utf8) else {
-            fatalError("Unable to convert UnitTestData.json to String")
-        }
-        return jsonString
-    }
-    
 }
